@@ -31,7 +31,6 @@ public:
     {
         const int n = bombs.size();
         _adj.resize(n);
-        unordered_map<int,int> both_
 
         for (int i = 0; i < bombs.size(); ++i)
         {
