@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> finalPrices(vector<int>& prices) {
+        const int n = prices.size(); 
+        vector<int> ans(n, -1); 
+        deque<int> right;
+
+        for (int i = n - 1; i >= 0; --i)
+        {
+            if (right.empty())
+            {
+                ans[i] = prices[i];
+            }
+            else
+            {
+                for (int px : right)
+                {
+                    if (px <= prices[i])
+                    {
+                        ans[i] = prices[i] - px; 
+                        break;
+                    }
+                }
+                if (ans[i] == -1)
+                {
+                    ans[i] = prices[i];
+                }
+            }
+
+            while (right.size() && right.front() > prices[i])
+            {
+                right.pop_front();
+            }
+            right.push_front(prices[i]);
+        }
+        return ans;
+    }
+};
