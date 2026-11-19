@@ -3,7 +3,7 @@ public:
     vector<int> finalPrices(vector<int>& prices) {
         const int n = prices.size(); 
         vector<int> ans(n, -1); 
-        deque<int> right;
+        vector<int> right;
 
         for (int i = n - 1; i >= 0; --i)
         {
@@ -13,11 +13,11 @@ public:
             }
             else
             {
-                for (int px : right)
+                for (auto it = right.rbegin(); it != right.rend(); ++it)
                 {
-                    if (px <= prices[i])
+                    if (*it <= prices[i])
                     {
-                        ans[i] = prices[i] - px; 
+                        ans[i] = prices[i] - *it;
                         break;
                     }
                 }
@@ -27,11 +27,11 @@ public:
                 }
             }
 
-            while (right.size() && right.front() > prices[i])
+            while (right.size() && right.back() > prices[i])
             {
-                right.pop_front();
+                right.pop_back();
             }
-            right.push_front(prices[i]);
+            right.push_back(prices[i]);
         }
         return ans;
     }
