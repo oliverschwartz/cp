@@ -1,28 +1,31 @@
 class Solution {
 public:
     string smallestPalindrome(string s) {
-        map<char,int> m; 
-        char odd_char = '\0';
+        array<int,26> cnt {}; 
         for (char c : s)
         {
-            ++m[c];
+            ++cnt[c - 'a'];
         }
 
         const int n = s.size();
         string ret(n, '.'); 
         int widx = 0;
 
-        for (const auto& [ch, cnt] : m)
+        for (int i = 0; i < 26; ++i)
         {
-            for (int i = 0; i < cnt / 2; ++i)
+            const char c = static_cast<char>(i + 'a'); 
+            if (cnt[i] % 2 == 1)
             {
-                ret[widx] = ch; 
-                ret[n - widx - 1] = ch;
-                ++widx;
+                ret[n / 2] = c;
+                --cnt[i];
             }
-            if (cnt % 2 == 1)
+
+            while (cnt[i] > 0)
             {
-                ret[n / 2] = ch;
+                ret[widx] = c;
+                ret[n - widx - 1] = c;
+                ++widx;
+                cnt[i] = cnt[i] - 2;
             }
         }
 
